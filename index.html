@@ -12,10 +12,26 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #8B4513, #DEB887);
+            font-family: 'Arial Black', 'Arial', sans-serif;
+            background: linear-gradient(135deg, #2C1810, #4A3728, #8B4513);
+            background-attachment: fixed;
             min-height: 100vh;
-            color: #2c1810;
+            color: #F5DEB3;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(139, 69, 19, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(139, 0, 0, 0.2) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
         }
 
         .container {
@@ -26,17 +42,27 @@
 
         h1 {
             text-align: center;
-            font-size: 2.5rem;
+            font-size: 3rem;
             margin-bottom: 30px;
-            color: #8B0000;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            color: #DC143C;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.8);
+            font-weight: bold;
+            letter-spacing: 2px;
+            background: linear-gradient(45deg, #DC143C, #8B0000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .selection-screen, .game-screen, .result-screen {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
+            background: linear-gradient(145deg, rgba(44, 24, 16, 0.95), rgba(74, 55, 40, 0.95));
+            border: 3px solid #8B4513;
+            border-radius: 20px;
             padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: 
+                0 15px 35px rgba(0,0,0,0.5),
+                inset 0 2px 10px rgba(245, 222, 179, 0.1);
+            backdrop-filter: blur(10px);
         }
 
         .titan-grid {
@@ -47,39 +73,94 @@
         }
 
         .titan-card {
-            border: 3px solid #ccc;
-            border-radius: 10px;
+            border: 3px solid #8B4513;
+            border-radius: 15px;
             padding: 15px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s ease;
-            background: white;
+            transition: all 0.4s ease;
+            background: linear-gradient(145deg, rgba(74, 55, 40, 0.8), rgba(44, 24, 16, 0.9));
+            color: #F5DEB3;
+            position: relative;
+            overflow: hidden;
+            min-height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .titan-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(220, 20, 60, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+            opacity: 0;
+        }
+
+        .titan-card:hover::before {
+            opacity: 1;
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
         }
 
         .titan-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 
+                0 15px 25px rgba(0,0,0,0.4),
+                0 0 20px rgba(220, 20, 60, 0.3);
+            border-color: #DC143C;
         }
 
         .titan-card.selected {
-            border-color: #8B0000;
-            background: #ffe6e6;
+            border-color: #DC143C;
+            background: linear-gradient(145deg, rgba(220, 20, 60, 0.2), rgba(139, 0, 0, 0.3));
+            box-shadow: 
+                0 10px 20px rgba(0,0,0,0.3),
+                0 0 30px rgba(220, 20, 60, 0.5),
+                inset 0 2px 10px rgba(220, 20, 60, 0.2);
         }
 
         .titan-emoji {
             font-size: 3rem;
             margin-bottom: 10px;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+
+        .titan-emoji img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
         }
 
         .titan-name {
             font-weight: bold;
-            font-size: 1.1rem;
-            margin-bottom: 5px;
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            color: #F5DEB3;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
         }
 
         .titan-ability {
-            font-size: 0.9rem;
-            color: #666;
+            font-size: 1rem;
+            color: #CD853F;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
         }
 
         .controls {
@@ -88,24 +169,55 @@
         }
 
         button {
-            background: #8B0000;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            font-size: 1.1rem;
-            border-radius: 5px;
+            background: linear-gradient(145deg, #DC143C, #8B0000);
+            color: #F5DEB3;
+            border: 2px solid #8B4513;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 10px;
             cursor: pointer;
             margin: 0 10px;
-            transition: background 0.3s ease;
+            transition: all 0.3s ease;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        button:hover::before {
+            left: 100%;
         }
 
         button:hover {
-            background: #a00000;
+            background: linear-gradient(145deg, #FF1744, #DC143C);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            border-color: #DC143C;
         }
 
         button:disabled {
-            background: #ccc;
+            background: linear-gradient(145deg, #555, #333);
+            color: #888;
             cursor: not-allowed;
+            border-color: #444;
+            box-shadow: none;
+            transform: none;
+        }
+
+        button:disabled::before {
+            display: none;
         }
 
         .race-track {
@@ -114,13 +226,36 @@
         }
 
         .track {
-            height: 60px;
-            background: linear-gradient(to right, #90EE90, #228B22);
-            border: 2px solid #006400;
-            border-radius: 30px;
-            margin: 10px 0;
+            height: 70px;
+            background: linear-gradient(to right, 
+                #654321 0%, 
+                #8B4513 20%, 
+                #A0522D 50%, 
+                #8B4513 80%, 
+                #654321 100%);
+            border: 3px solid #2F1B14;
+            border-radius: 35px;
+            margin: 5px 0;
             position: relative;
             overflow: hidden;
+            box-shadow: 
+                inset 0 4px 8px rgba(0,0,0,0.5),
+                0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .track::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent 0px,
+                rgba(245, 222, 179, 0.1) 50px,
+                transparent 100px
+            );
         }
 
         .titan-runner {
@@ -128,9 +263,104 @@
             left: 0;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 2rem;
+            font-size: 2.5rem;
             transition: left 0.3s ease;
             z-index: 2;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.8));
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .titan-runner img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 50%;
+            border: 2px solid #F5DEB3;
+            transition: all 0.3s ease;
+            background: rgba(245, 222, 179, 0.1);
+        }
+
+        /* 공격 효과 */
+        .attacking {
+            animation: attackFlash 0.6s ease-in-out;
+            transform: translateY(-50%) scale(1.2);
+            filter: drop-shadow(0 0 15px #FF4444) brightness(1.3);
+        }
+
+        @keyframes attackFlash {
+            0% { filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.8)); }
+            50% { filter: drop-shadow(0 0 20px #FF4444) brightness(1.5); }
+            100% { filter: drop-shadow(0 0 15px #FF4444) brightness(1.3); }
+        }
+
+        /* 기절 효과 */
+        .stunned {
+            animation: stunEffect 1s ease-in-out infinite;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.8)) grayscale(0.7) brightness(0.6);
+        }
+
+        @keyframes stunEffect {
+            0%, 100% { transform: translateY(-50%) rotate(-5deg); }
+            50% { transform: translateY(-50%) rotate(5deg); }
+        }
+
+        /* 달리는 효과 */
+        .running {
+            animation: runBounce 0.4s ease-in-out infinite alternate;
+        }
+
+        @keyframes runBounce {
+            0% { transform: translateY(-50%) scale(1); }
+            100% { transform: translateY(-50%) scale(1.05) translateY(-52%); }
+        }
+
+        /* 완주 효과 */
+        .finished {
+            animation: finishCelebration 1s ease-in-out;
+            filter: drop-shadow(0 0 20px #FFD700) brightness(1.4);
+        }
+
+        @keyframes finishCelebration {
+            0%, 100% { transform: translateY(-50%) scale(1); }
+            25% { transform: translateY(-50%) scale(1.3) rotate(-10deg); }
+            50% { transform: translateY(-50%) scale(1.2) rotate(10deg); }
+            75% { transform: translateY(-50%) scale(1.3) rotate(-5deg); }
+        }
+
+        /* 공격 받은 효과 */
+        .hit {
+            animation: hitShake 0.5s ease-in-out;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.8)) brightness(1.2) hue-rotate(320deg);
+        }
+
+        @keyframes hitShake {
+            0%, 100% { transform: translateY(-50%) translateX(0); }
+            25% { transform: translateY(-50%) translateX(-8px); }
+            75% { transform: translateY(-50%) translateX(8px); }
+        }
+
+        /* 효과 파티클 */
+        .effect-particle {
+            position: absolute;
+            pointer-events: none;
+            z-index: 3;
+            font-size: 1.5rem;
+            animation: particleFloat 1s ease-out forwards;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-30px) scale(1.5);
+            }
         }
 
         .finish-line {
@@ -138,37 +368,51 @@
             right: 0;
             top: 0;
             bottom: 0;
-            width: 3px;
+            width: 5px;
             background: repeating-linear-gradient(
                 45deg,
-                #000,
-                #000 5px,
-                #fff 5px,
-                #fff 10px
+                #F5DEB3,
+                #F5DEB3 8px,
+                #DC143C 8px,
+                #DC143C 16px
             );
+            box-shadow: -2px 0 5px rgba(0,0,0,0.5);
         }
 
         .runner-info {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end;
             align-items: center;
             margin-bottom: 5px;
         }
 
         .runner-name {
             font-weight: bold;
+            color: #F5DEB3;
+            font-size: 1.1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
         }
 
         .runner-status {
             font-size: 0.9rem;
-            color: #666;
+            color: #CD853F;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+            min-height: 20px;
+            opacity: 0.7;
         }
 
         .game-info {
             text-align: center;
             margin: 20px 0;
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             font-weight: bold;
+            color: #DC143C;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            background: linear-gradient(145deg, rgba(220, 20, 60, 0.1), rgba(139, 0, 0, 0.1));
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #8B4513;
         }
 
         .hidden {
@@ -183,11 +427,14 @@
         .result-item {
             display: flex;
             align-items: center;
-            padding: 15px;
-            margin: 10px 0;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin: 15px 0;
+            background: linear-gradient(145deg, rgba(74, 55, 40, 0.6), rgba(44, 24, 16, 0.8));
+            border: 2px solid #8B4513;
+            border-radius: 15px;
+            box-shadow: 
+                0 5px 15px rgba(0,0,0,0.3),
+                inset 0 2px 5px rgba(245, 222, 179, 0.1);
         }
 
         .rank {
@@ -204,11 +451,27 @@
         .result-titan {
             font-size: 2rem;
             margin-right: 15px;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .result-titan img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 50%;
+            border: 2px solid #8B4513;
+            background: rgba(245, 222, 179, 0.1);
         }
 
         .result-name {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: bold;
+            color: #F5DEB3;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
         }
     </style>
 </head>
@@ -218,10 +481,10 @@
 
         <!-- 거인 선택 화면 -->
         <div id="selectionScreen" class="selection-screen">
-            <h2 style="text-align: center; margin-bottom: 20px;">경주에 참여할 거인들을 선택하세요!</h2>
+            <h2 style="text-align: center; margin-bottom: 20px; color: #F5DEB3; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">경주에 참여할 거인들을 선택하세요!</h2>
             <div class="titan-grid" id="titanGrid"></div>
             <div class="controls">
-                <p id="selectionCount">선택된 거인: 0개 (최소 2개 이상 선택하세요)</p>
+                <p id="selectionCount" style="color: #F5DEB3; font-size: 1.1rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">선택된 거인: 0개 (최소 2개 이상 선택하세요)</p>
                 <button id="startBtn" disabled onclick="startRace()">게임 시작!</button>
             </div>
         </div>
@@ -233,13 +496,12 @@
             </div>
             <div id="raceTrack" class="race-track"></div>
             <div class="controls">
-                <button onclick="resetGame()">다시 선택하기</button>
             </div>
         </div>
 
         <!-- 결과 화면 -->
         <div id="resultScreen" class="result-screen hidden">
-            <h2 style="text-align: center; margin-bottom: 20px;">🏆 경주 결과 🏆</h2>
+            <h2 style="text-align: center; margin-bottom: 20px; color: #F5DEB3; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">🏆 경주 결과 🏆</h2>
             <ul id="resultList" class="result-list"></ul>
             <div class="controls">
                 <button onclick="playAgain()">다시 경주하기</button>
@@ -250,19 +512,71 @@
 
     <script>
         const titans = [
-            { name: "에렌 거인", emoji: "👹", ability: "공격형", speed: 0.8, attack: 0.3 },
-            { name: "여성형 거인", emoji: "👩", ability: "민첩형", speed: 1.2, attack: 0.1 },
-            { name: "갑옷 거인", emoji: "🛡️", ability: "방어형", speed: 0.6, attack: 0.2 },
-            { name: "대형 거인", emoji: "🦣", ability: "파워형", speed: 0.4, attack: 0.4 },
-            { name: "짐승 거인", emoji: "🦍", ability: "전략형", speed: 0.7, attack: 0.3 },
-            { name: "턱 거인", emoji: "🦷", ability: "속도형", speed: 1.0, attack: 0.2 },
-            { name: "전차 거인", emoji: "🚗", ability: "기동형", speed: 0.9, attack: 0.2 },
-            { name: "망치 거인", emoji: "🔨", ability: "공성형", speed: 0.5, attack: 0.5 }
+            { 
+                name: "시조의 거인", 
+                cardImage: "images/founding_titan_card.png",
+                runnerImage: "images/founding_titan_runner.png"
+            },
+            { 
+                name: "진격의 거인", 
+                cardImage: "images/attack_titan_card.png",
+                runnerImage: "images/attack_titan_runner.png"
+            },
+            { 
+                name: "초대형 거인", 
+                cardImage: "images/colossal_titan_card.png",
+                runnerImage: "images/colossal_titan_runner.png"
+            },
+            { 
+                name: "갑옷 거인", 
+                cardImage: "images/armored_titan_card.png",
+                runnerImage: "images/armored_titan_runner.png"
+            },
+            { 
+                name: "여성형 거인", 
+                cardImage: "images/female_titan_card.png",
+                runnerImage: "images/female_titan_runner.png"
+            },
+            { 
+                name: "짐승 거인", 
+                cardImage: "images/beast_titan_card.png",
+                runnerImage: "images/beast_titan_runner.png"
+            },
+            { 
+                name: "턱 거인", 
+                cardImage: "images/jaw_titan_card.png",
+                runnerImage: "images/jaw_titan_runner.png"
+            },
+            { 
+                name: "전차 거인", 
+                cardImage: "images/cart_titan_card.png",
+                runnerImage: "images/cart_titan_runner.png"
+            },
+            { 
+                name: "워해머 거인", 
+                cardImage: "images/warhammer_titan_card.png",
+                runnerImage: "images/warhammer_titan_runner.png"
+            }
         ];
 
         let selectedTitans = [];
         let raceInProgress = false;
         let raceResults = [];
+
+        function getDefaultEmoji(titanName) {
+            const emojiMap = {
+                "시조의 거인": "👑",
+                "진격의 거인": "⚔️", 
+                "초대형 거인": "🏗️",
+                "갑옷 거인": "🛡️",
+                "여성형 거인": "👩",
+                "짐승 거인": "🦍",
+                "턱 거인": "🦷",
+                "전차 거인": "🚗",
+                "워해머 거인": "🔨"
+            };
+            return emojiMap[titanName] || "🔸";
+        }
 
         function initGame() {
             renderTitanGrid();
@@ -277,10 +591,15 @@
                 const card = document.createElement('div');
                 card.className = 'titan-card';
                 card.onclick = () => toggleTitan(index);
+                
+                const isImagePath = titan.cardImage.includes('/');
+                const cardContent = isImagePath ? 
+                    `<img src="${titan.cardImage}" alt="${titan.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                     <div style="display:none; font-size:4rem;">${getDefaultEmoji(titan.name)}</div>` 
+                    : titan.cardImage;
+                
                 card.innerHTML = `
-                    <div class="titan-emoji">${titan.emoji}</div>
-                    <div class="titan-name">${titan.name}</div>
-                    <div class="titan-ability">${titan.ability}</div>
+                    <div class="titan-emoji">${cardContent}</div>
                 `;
                 grid.appendChild(card);
             });
@@ -316,6 +635,69 @@
             setTimeout(runRace, 1000);
         }
 
+        function createEffect(runner, effectType) {
+            const particle = document.createElement('div');
+            particle.className = 'effect-particle';
+            
+            const effects = {
+                attack: '💥',
+                hit: '💫',
+                stun: '😵',
+                finish: '🎉'
+            };
+            
+            particle.textContent = effects[effectType] || '✨';
+            particle.style.left = runner.style.left;
+            particle.style.top = '20%';
+            
+            runner.parentElement.appendChild(particle);
+            
+            setTimeout(() => {
+                if (particle.parentElement) {
+                    particle.parentElement.removeChild(particle);
+                }
+            }, 1000);
+        }
+
+        function setRunnerState(index, state) {
+            const runner = document.getElementById(`runner-${index}`);
+            const statusElement = document.getElementById(`status-${index}`);
+            
+            if (!runner) return;
+            
+            // 모든 상태 클래스 제거
+            runner.classList.remove('attacking', 'stunned', 'running', 'finished', 'hit');
+            
+            switch(state) {
+                case 'attack':
+                    runner.classList.add('attacking');
+                    statusElement.textContent = '';
+                    createEffect(runner, 'attack');
+                    break;
+                case 'stunned':
+                    runner.classList.add('stunned');
+                    statusElement.textContent = '';
+                    createEffect(runner, 'stun');
+                    break;
+                case 'hit':
+                    runner.classList.add('hit');
+                    statusElement.textContent = '';
+                    createEffect(runner, 'hit');
+                    break;
+                case 'running':
+                    runner.classList.add('running');
+                    statusElement.textContent = '';
+                    break;
+                case 'finished':
+                    runner.classList.add('finished');
+                    statusElement.textContent = '';
+                    createEffect(runner, 'finish');
+                    break;
+                default:
+                    statusElement.textContent = '';
+            }
+        }
+
         function setupRaceTrack() {
             const track = document.getElementById('raceTrack');
             track.innerHTML = '';
@@ -323,13 +705,18 @@
             selectedTitans.forEach(index => {
                 const titan = titans[index];
                 const trackElement = document.createElement('div');
+                
+                const isImagePath = titan.runnerImage.includes('/');
+                const runnerContent = isImagePath ? 
+                    `<img src="${titan.runnerImage}" alt="${titan.name}" onerror="this.outerHTML='${getDefaultEmoji(titan.name)}';">` 
+                    : titan.runnerImage;
+                
                 trackElement.innerHTML = `
                     <div class="runner-info">
-                        <span class="runner-name">${titan.name}</span>
-                        <span class="runner-status" id="status-${index}">준비중</span>
+                        <span class="runner-status" id="status-${index}"></span>
                     </div>
                     <div class="track">
-                        <div class="titan-runner" id="runner-${index}">${titan.emoji}</div>
+                        <div class="titan-runner" id="runner-${index}">${runnerContent}</div>
                         <div class="finish-line"></div>
                     </div>
                 `;
@@ -359,30 +746,38 @@
                     if (positions[index] >= 100) return;
                     
                     const titan = titans[index];
-                    const statusElement = document.getElementById(`status-${index}`);
                     
                     // 기절 상태 처리
                     if (stunned[index] > 0) {
                         stunned[index]--;
-                        statusElement.textContent = '기절중...';
+                        setRunnerState(index, 'stunned');
                         return;
                     }
                     
-                    // 랜덤 속도 + 기본 속도
-                    const speed = (Math.random() * 2 + titan.speed) * 0.5;
+                    // 완전 랜덤 속도 (0.2 ~ 1.5 범위)
+                    const speed = Math.random() * 1.3 + 0.2;
                     positions[index] += speed;
                     
-                    // 공격 확률
-                    if (Math.random() < titan.attack * 0.1) {
+                    // 랜덤 공격 확률 (5% 확률로 공격)
+                    if (Math.random() < 0.05) {
                         const targets = selectedTitans.filter(t => t !== index && positions[t] < 100);
                         if (targets.length > 0) {
                             const target = targets[Math.floor(Math.random() * targets.length)];
-                            stunned[target] = Math.floor(Math.random() * 3) + 1;
-                            statusElement.textContent = '공격!';
-                            document.getElementById(`status-${target}`).textContent = '공격받음!';
+                            stunned[target] = Math.floor(Math.random() * 2) + 1;
+                            
+                            // 공격자와 피격자 효과 적용
+                            setRunnerState(index, 'attack');
+                            setTimeout(() => setRunnerState(target, 'hit'), 200);
+                            
+                            // 1초 후 공격 효과 제거
+                            setTimeout(() => {
+                                if (stunned[index] === 0 && positions[index] < 100) {
+                                    setRunnerState(index, 'running');
+                                }
+                            }, 1000);
                         }
                     } else {
-                        statusElement.textContent = '달리는중';
+                        setRunnerState(index, 'running');
                     }
                     
                     // 위치 업데이트
@@ -396,7 +791,7 @@
                             titan: titan, 
                             rank: raceResults.length + 1 
                         });
-                        statusElement.textContent = '완주!';
+                        setRunnerState(index, 'finished');
                     }
                 });
                 
@@ -419,6 +814,11 @@
                 const li = document.createElement('li');
                 li.className = 'result-item';
                 
+                const isImagePath = result.titan.runnerImage.includes('/');
+                const titanDisplay = isImagePath ? 
+                    `<img src="${result.titan.runnerImage}" alt="${result.titan.name}" onerror="this.outerHTML='${getDefaultEmoji(result.titan.name)}';">` 
+                    : result.titan.runnerImage;
+                
                 let rankClass = '';
                 let rankText = `${result.rank}위`;
                 if (result.rank === 1) {
@@ -434,7 +834,7 @@
                 
                 li.innerHTML = `
                     <span class="rank ${rankClass}">${rankText}</span>
-                    <span class="result-titan">${result.titan.emoji}</span>
+                    <span class="result-titan">${titanDisplay}</span>
                     <span class="result-name">${result.titan.name}</span>
                 `;
                 resultList.appendChild(li);

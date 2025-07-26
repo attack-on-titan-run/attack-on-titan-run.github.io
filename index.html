@@ -622,7 +622,7 @@
 
             const count = selectedTitans.length;
             document.getElementById('selectionCount').textContent = 
-                `Chosen Titan: ${count ${count < 2 ? '(Please choose at least 2)' : ''}`;
+                `Chosen Titan: ${count} ${count < 2 ? '(Please choose at least 2)' : ''}`;
             
             document.getElementById('startBtn').disabled = count < 2;
         }

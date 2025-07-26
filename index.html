@@ -738,8 +738,8 @@
                         return;
                     }
                     
-                    // 완전 랜덤 속도 (0.2 ~ 1.5 범위)
-                    const speed = Math.random() * 1.3 + 0.2;
+                    // 완전 랜덤 속도 (0.0 ~ 2.0 범위)
+                    const speed = Math.random() * 2.0;
                     positions[index] += speed;
                     
                     // 랜덤 공격 확률 (5% 확률로 공격)

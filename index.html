@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Attack on Titan Run</title>
+    <title>진격의 거인 달리기 게임</title>
     <style>
         * {
             margin: 0;
@@ -84,7 +84,6 @@
             position: relative;
             overflow: hidden;
         }
-
 
         .titan-card::before {
             content: '';
@@ -312,7 +311,7 @@
 
         @keyframes runBounce {
             0% { transform: translateY(-50%) scale(1); }
-            100% { transform: translateY(-50%) scale(1.005); }
+            100% { transform: translateY(-50%) scale(1.05); }
         }
 
         /* 완주 효과 */
@@ -474,22 +473,22 @@
 </head>
 <body>
     <div class="container">
-        <h1>🏃‍♂️ Attack on Titan Run 🏃‍♂️</h1>
+        <h1>🏃‍♂️ 진격의 거인 달리기 게임 🏃‍♂️</h1>
 
         <!-- 거인 선택 화면 -->
         <div id="selectionScreen" class="selection-screen">
-            <h2 style="text-align: center; margin-bottom: 20px; color: #F5DEB3; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Choose the Titans!</h2>
+            <h2 style="text-align: center; margin-bottom: 20px; color: #F5DEB3; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">경주에 참여할 거인들을 선택하세요!</h2>
             <div class="titan-grid" id="titanGrid"></div>
             <div class="controls">
-                <p id="selectionCount" style="color: #F5DEB3; font-size: 1.1rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Chosen Titan: 0 (Please choose at least 2)</p>
-                <button id="startBtn" disabled onclick="startRace()">Start Race!</button>
+                <p id="selectionCount" style="color: #F5DEB3; font-size: 1.1rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">선택된 거인: 0개 (최소 2개 이상 선택하세요)</p>
+                <button id="startBtn" disabled onclick="startRace()">게임 시작!</button>
             </div>
         </div>
 
         <!-- 게임 화면 -->
         <div id="gameScreen" class="game-screen hidden">
             <div class="game-info">
-                <span id="gameStatus">Loading...</span>
+                <span id="gameStatus">준비중...</span>
             </div>
             <div id="raceTrack" class="race-track"></div>
             <div class="controls">
@@ -498,11 +497,11 @@
 
         <!-- 결과 화면 -->
         <div id="resultScreen" class="result-screen hidden">
-            <h2 style="text-align: center; margin-bottom: 20px; color: #F5DEB3; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">🏆 Race Result 🏆</h2>
+            <h2 style="text-align: center; margin-bottom: 20px; color: #F5DEB3; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">🏆 경주 결과 🏆</h2>
             <ul id="resultList" class="result-list"></ul>
             <div class="controls">
-                <button onclick="playAgain()">Play Again</button>
-                <button onclick="resetGame()">Reset Game</button>
+                <button onclick="playAgain()">다시 경주하기</button>
+                <button onclick="resetGame()">거인 다시 선택하기</button>
             </div>
         </div>
     </div>
@@ -510,47 +509,47 @@
     <script>
         const titans = [
             { 
-                name: "Founding Titan", 
+                name: "시조의 거인", 
                 cardImage: "images/founding_titan_card.png",
                 runnerImage: "images/founding_titan_runner.png"
             },
             { 
-                name: "Attack Titan", 
+                name: "진격의 거인", 
                 cardImage: "images/attack_titan_card.png",
                 runnerImage: "images/attack_titan_runner.png"
             },
             { 
-                name: "Colossal Titan", 
+                name: "초대형 거인", 
                 cardImage: "images/colossal_titan_card.png",
                 runnerImage: "images/colossal_titan_runner.png"
             },
             { 
-                name: "Armored Titan", 
+                name: "갑옷 거인", 
                 cardImage: "images/armored_titan_card.png",
                 runnerImage: "images/armored_titan_runner.png"
             },
             { 
-                name: "Female Titan", 
+                name: "여성형 거인", 
                 cardImage: "images/female_titan_card.png",
                 runnerImage: "images/female_titan_runner.png"
             },
             { 
-                name: "Beast Titan", 
+                name: "짐승 거인", 
                 cardImage: "images/beast_titan_card.png",
                 runnerImage: "images/beast_titan_runner.png"
             },
             { 
-                name: "Jaw Titan", 
+                name: "턱 거인", 
                 cardImage: "images/jaw_titan_card.png",
                 runnerImage: "images/jaw_titan_runner.png"
             },
             { 
-                name: "Cart Titan", 
+                name: "전차 거인", 
                 cardImage: "images/cart_titan_card.png",
                 runnerImage: "images/cart_titan_runner.png"
             },
             { 
-                name: "Warhammer Titan", 
+                name: "워해머 거인", 
                 cardImage: "images/warhammer_titan_card.png",
                 runnerImage: "images/warhammer_titan_runner.png"
             }
@@ -562,15 +561,15 @@
 
         function getDefaultEmoji(titanName) {
             const emojiMap = {
-                "Founding Titan": "👑",
-                "Attack Titan": "⚔️", 
-                "Colossal Titan": "🏗️",
-                "Armored Titan": "🛡️",
-                "Female Titan": "👩",
-                "Beast Titan": "🦍",
-                "Jaw Titan": "🦷",
-                "Cart Titan": "🚗",
-                "Warhammer Titan": "🔨"
+                "시조의 거인": "👑",
+                "진격의 거인": "⚔️", 
+                "초대형 거인": "🏗️",
+                "갑옷 거인": "🛡️",
+                "여성형 거인": "👩",
+                "짐승 거인": "🦍",
+                "턱 거인": "🦷",
+                "전차 거인": "🚗",
+                "워해머 거인": "🔨"
             };
             return emojiMap[titanName] || "🔸";
         }
@@ -589,11 +588,11 @@
                 card.className = 'titan-card';
                 card.onclick = () => toggleTitan(index);
                 
-                const isImagePath = titan.runnerImage.includes('/');
+                const isImagePath = titan.cardImage.includes('/');
                 const cardContent = isImagePath ? 
-                    `<img src="${titan.runnerImage}" alt="${titan.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    `<img src="${titan.cardImage}" alt="${titan.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                      <div style="display:none; font-size:4rem;">${getDefaultEmoji(titan.name)}</div>` 
-                    : titan.runnerImage;
+                    : titan.cardImage;
                 
                 card.innerHTML = `
                     <div class="titan-emoji">${cardContent}</div>
@@ -620,7 +619,7 @@
 
             const count = selectedTitans.length;
             document.getElementById('selectionCount').textContent = 
-                `Chosen Titan: ${count} ${count < 2 ? '(Please choose at least 2)' : ''}`;
+                `선택된 거인: ${count}개 ${count < 2 ? '(최소 2개 이상 선택하세요)' : ''}`;
             
             document.getElementById('startBtn').disabled = count < 2;
         }
@@ -725,7 +724,7 @@
         function runRace() {
             raceInProgress = true;
             raceResults = [];
-            document.getElementById('gameStatus').textContent = 'Race Start!';
+            document.getElementById('gameStatus').textContent = '경주 시작!';
             
             const runners = {};
             const positions = {};
@@ -821,13 +820,13 @@
                 let rankText = `${result.rank}위`;
                 if (result.rank === 1) {
                     rankClass = 'first';
-                    rankText = '🥇 1st';
+                    rankText = '🥇 1위';
                 } else if (result.rank === 2) {
                     rankClass = 'second';
-                    rankText = '🥈 2nd';
+                    rankText = '🥈 2위';
                 } else if (result.rank === 3) {
                     rankClass = 'third';
-                    rankText = '🥉 3rd';
+                    rankText = '🥉 3위';
                 }
                 
                 li.innerHTML = `

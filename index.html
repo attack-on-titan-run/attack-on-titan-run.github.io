@@ -411,6 +411,7 @@
         .result-item {
             display: flex;
             align-items: center;
+            justify-content: center; 
             padding: 20px;
             margin: 15px 0;
             background: linear-gradient(145deg, rgba(74, 55, 40, 0.6), rgba(44, 24, 16, 0.8));
@@ -781,7 +782,7 @@
                 // 모든 거인이 완주했는지 체크
                 if (raceResults.length === selectedTitans.length) {
                     clearInterval(raceInterval);
-                    setTimeout(showResults, 2000);
+                    setTimeout(showResults, 1000);
                 }
             }, 100);
         }

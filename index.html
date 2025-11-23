@@ -4,465 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>진격의 거인 달리기 게임</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    <link rel="stylesheet" href="/styles.css">
 
-        body {
-            font-family: 'Arial Black', 'Arial', sans-serif;
-            background: linear-gradient(135deg, #2C1810, #4A3728, #8B4513);
-            background-attachment: fixed;
-            min-height: 100vh;
-            color: #F5DEB3;
-            position: relative;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: 
-                radial-gradient(circle at 20% 80%, rgba(139, 69, 19, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(139, 0, 0, 0.2) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        h1 {
-            text-align: center;
-            font-size: 3rem;
-            margin-bottom: 30px;
-            color: #DC143C;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.8);
-            font-weight: bold;
-            letter-spacing: 2px;
-            background: linear-gradient(45deg, #DC143C, #8B0000);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .selection-screen, .game-screen, .result-screen {
-            background: linear-gradient(145deg, rgba(44, 24, 16, 0.95), rgba(74, 55, 40, 0.95));
-            border: 3px solid #8B4513;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 
-                0 15px 35px rgba(0,0,0,0.5),
-                inset 0 2px 10px rgba(245, 222, 179, 0.1);
-            backdrop-filter: blur(10px);
-        }
-
-        .titan-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-        .titan-card {
-            border: 3px solid #8B4513;
-            border-radius: 15px;
-            padding: 5px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            background: linear-gradient(145deg, rgba(74, 55, 40, 0.8), rgba(44, 24, 16, 0.9));
-            color: #F5DEB3;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .titan-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(220, 20, 60, 0.1), transparent);
-            transition: all 0.6s ease;
-            opacity: 0;
-        }
-
-        .titan-card:hover::before {
-            opacity: 1;
-            animation: shimmer 1.5s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-100%) translateY(-100%); }
-            100% { transform: translateX(100%) translateY(100%); }
-        }
-
-        .titan-card:hover {
-            transform: translateY(-8px) scale(1.05);
-            box-shadow: 
-                0 15px 25px rgba(0,0,0,0.4),
-                0 0 20px rgba(220, 20, 60, 0.3);
-            border-color: #DC143C;
-        }
-
-        .titan-card.selected {
-            border-color: #DC143C;
-            background: linear-gradient(145deg, rgba(220, 20, 60, 0.2), rgba(139, 0, 0, 0.3));
-            box-shadow: 
-                0 10px 20px rgba(0,0,0,0.3),
-                0 0 30px rgba(220, 20, 60, 0.5),
-                inset 0 2px 10px rgba(220, 20, 60, 0.2);
-        }
-
-        .titan-emoji {
-            font-size: 3rem;
-            margin-bottom: 5px;
-            width: 80px;
-            height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 5px auto;
-        }
-
-        .titan-emoji img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-        }
-
-        .titan-name {
-            font-weight: bold;
-            font-size: 1.2rem;
-            margin-bottom: 1px;
-            color: #F5DEB3;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-        }
-
-        .titan-ability {
-            font-size: 1rem;
-            color: #CD853F;
-            font-weight: 600;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
-        }
-
-        .controls {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        button {
-            background: linear-gradient(145deg, #DC143C, #8B0000);
-            color: #F5DEB3;
-            border: 2px solid #8B4513;
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            border-radius: 10px;
-            cursor: pointer;
-            margin: 0 10px;
-            transition: all 0.3s ease;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.6s ease;
-        }
-
-        button:hover::before {
-            left: 100%;
-        }
-
-        button:hover {
-            background: linear-gradient(145deg, #FF1744, #DC143C);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-            border-color: #DC143C;
-        }
-
-        button:disabled {
-            background: linear-gradient(145deg, #555, #333);
-            color: #888;
-            cursor: not-allowed;
-            border-color: #444;
-            box-shadow: none;
-            transform: none;
-        }
-
-        button:disabled::before {
-            display: none;
-        }
-
-        .race-track {
-            margin: 10px 0;
-            position: relative;
-        }
-
-        .track {
-            height: 70px;
-            background: linear-gradient(to right, 
-                #654321 0%, 
-                #8B4513 20%, 
-                #A0522D 50%, 
-                #8B4513 80%, 
-                #654321 100%);
-            position: relative;
-        }
-
-        .track::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: repeating-linear-gradient(
-                90deg,
-                transparent 0px,
-                rgba(245, 222, 179, 0.1) 50px,
-                transparent 100px
-            );
-        }
-
-        .titan-runner {
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 2.5rem;
-            transition: left 0.3s ease;
-            z-index: 2;
-            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.8));
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .titan-runner img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            transition: all 0.3s ease;
-        }
-
-        /* 공격 효과 */
-        .attacking {
-            animation: attackFlash 0.6s ease-in-out;
-            transform: translateY(-50%) scale(1.2);
-            filter: drop-shadow(0 0 15px #FF4444) brightness(1.3);
-        }
-
-        @keyframes attackFlash {
-            0% { filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.8)); }
-            50% { filter: drop-shadow(0 0 20px #FF4444) brightness(1.5); }
-            100% { filter: drop-shadow(0 0 15px #FF4444) brightness(1.3); }
-        }
-
-        /* 기절 효과 */
-        .stunned {
-            animation: stunEffect 1s ease-in-out infinite;
-            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.8)) grayscale(0.7) brightness(0.6);
-        }
-
-        @keyframes stunEffect {
-            0%, 100% { transform: translateY(-50%) rotate(-5deg); }
-            50% { transform: translateY(-50%) rotate(5deg); }
-        }
-
-        /* 달리는 효과 */
-        .running {
-            animation: runBounce 0.4s ease-in-out infinite alternate;
-        }
-
-        @keyframes runBounce {
-            0% { transform: translateY(-50%) scale(1); }
-            100% { transform: translateY(-50%) scale(1.05); }
-        }
-
-        /* 완주 효과 */
-        .finished {
-            animation: finishCelebration 1s ease-in-out;
-            filter: drop-shadow(0 0 20px #FFD700) brightness(1.4);
-        }
-
-        @keyframes finishCelebration {
-            0%, 100% { transform: translateY(-50%) scale(1); }
-            25% { transform: translateY(-50%) scale(1.3) rotate(-10deg); }
-            50% { transform: translateY(-50%) scale(1.2) rotate(10deg); }
-            75% { transform: translateY(-50%) scale(1.3) rotate(-5deg); }
-        }
-
-        /* 공격 받은 효과 */
-        .hit {
-            animation: hitShake 0.5s ease-in-out;
-            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.8)) brightness(1.2) hue-rotate(320deg);
-        }
-
-        @keyframes hitShake {
-            0%, 100% { transform: translateY(-50%) translateX(0); }
-            25% { transform: translateY(-50%) translateX(-8px); }
-            75% { transform: translateY(-50%) translateX(8px); }
-        }
-
-        /* 효과 파티클 */
-        .effect-particle {
-            position: absolute;
-            pointer-events: none;
-            z-index: 3;
-            font-size: 1.5rem;
-            animation: particleFloat 1s ease-out forwards;
-        }
-
-        @keyframes particleFloat {
-            0% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-30px) scale(1.5);
-            }
-        }
-
-        .finish-line {
-            position: absolute;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            width: 5px;
-            background: repeating-linear-gradient(
-                45deg,
-                #F5DEB3,
-                #F5DEB3 8px,
-                #DC143C 8px,
-                #DC143C 16px
-            );
-            box-shadow: -2px 0 5px rgba(0,0,0,0.5);
-        }
-
-        .runner-info {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            margin-bottom: 0px;
-        }
-
-        .runner-name {
-            font-weight: bold;
-            color: #F5DEB3;
-            font-size: 1.1rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-        }
-
-        .runner-status {
-            font-size: 0.9rem;
-            color: #CD853F;
-            font-weight: 600;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
-            opacity: 0.7;
-        }
-
-        .game-info {
-            text-align: center;
-            margin: 20px 0;
-            font-size: 1.4rem;
-            font-weight: bold;
-            color: #DC143C;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-            background: linear-gradient(145deg, rgba(220, 20, 60, 0.1), rgba(139, 0, 0, 0.1));
-            padding: 15px;
-            border-radius: 10px;
-            border: 2px solid #8B4513;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .result-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .result-item {
-            display: flex;
-            align-items: center;
-            justify-content: center; 
-            padding: 20px;
-            margin: 15px 0;
-            background: linear-gradient(145deg, rgba(74, 55, 40, 0.6), rgba(44, 24, 16, 0.8));
-            border: 2px solid #8B4513;
-            border-radius: 15px;
-            box-shadow: 
-                0 5px 15px rgba(0,0,0,0.3),
-                inset 0 2px 5px rgba(245, 222, 179, 0.1);
-        }
-
-        .rank {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-right: 20px;
-            min-width: 40px;
-        }
-
-        .rank.first { color: #FFD700; }
-        .rank.second { color: #C0C0C0; }
-        .rank.third { color: #CD7F32; }
-
-        .result-titan {
-            font-size: 2rem;
-            margin-right: 15px;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .result-titan img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            border-radius: 50%;
-            border: 2px solid #8B4513;
-            background: rgba(245, 222, 179, 0.1);
-        }
-
-        .result-name {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: #F5DEB3;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-        }
-    </style>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1947918642488492"
      crossorigin="anonymous"></script>
 </head>
 <body>
+    <nav class="nav-bar">
+        <a href="#rules">게임 규칙 상세</a>
+        <a href="#titans">진격의 거인 소개</a>
+        <a href="/privacy.html">개인정보처리방침</a> <a href="/contact.html">문의 및 피드백</a> 
+    </nav>
+
     <div class="container">
         <h1>🏃‍♂️ 진격의 거인 달리기 게임 🏃‍♂️</h1>
 
@@ -493,6 +46,133 @@
             <div class="controls">
                 <button onclick="playAgain()">다시 경주하기</button>
                 <button onclick="resetGame()">거인 다시 선택하기</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="rules">
+        <h2>🎲 거인 런: 운명의 경주 규칙</h2>
+        <p>《거인 런》은 플레이어가 '운명의 거인'을 선택하여, 예측할 수 없는 경주 결과에 도전하는 캐주얼 시뮬레이션 게임입니다. 복잡한 조작 없이, 거인 선택 후 경주의 결과를 확인하는 재미에 집중합니다.</p>
+
+        <h3>1. 플레이어 참여 방법</h3>
+        <ul>
+            <li><strong>1단계: 거인 선택:</strong> 화면에 제시된 아홉 거인 중 원하는 거인을 선택합니다. 이 거인이 당신의 '경주 대표'가 됩니다.</li>
+            <li><strong>2단계: 경주 시작:</strong> '경주 시작' 버튼을 누르면 시뮬레이션이 시작됩니다.</li>
+            <li><strong>3단계: 결과 확인:</strong> 거인들의 달리기 시뮬레이션 후, **랜덤한 요소**가 가미된 최종 순위가 결정됩니다.</li>
+        </ul>
+
+        <h3>2. 순위 결정의 비밀: '운명'의 요소</h3>
+        <p>이 게임의 핵심 재미는 **예측 불가능성**에 있습니다. 순위는 오직 당신의 운에 달려 있습니다. 하지만 다음의 요소들이 경주에 미묘하게 영향을 미칠 수 있습니다. (※이 부분은 게임의 미스터리 요소를 부각하기 위한 서술입니다.)</p>
+        <ul>
+            <li><strong>거인별 잠재력:</strong> 거인이 가진 원작 속의 특징(속도, 체력, 특수 능력 등)이 **'잠재적인 가중치'**로 작용하여, 당신의 거인에게 미세한 운의 기회를 제공할 수 있습니다.</li>
+            <li><strong>미지의 변수:</strong> 경주 중 발생하는 **'기행종 출몰'** 혹은 **'예기치 못한 경질화 실패'** 등, 순식간에 순위를 뒤바꿀 수 있는 무작위 이벤트가 적용됩니다.</li>
+        </ul>
+
+        <div class="titan-select-tip">
+            **💡 팁:** 어떤 거인을 선택하든 순위는 랜덤하게 결정될 수 있지만, 당신의 '최애 거인'이 우승할 때의 기쁨은 그 무엇보다 클 것입니다!
+        </div>
+    </div>
+
+    <div class="container" id="titans">
+        <h2>👹 진격의 거인 속 9대 거인 소개</h2>
+        <p>《진격의 거인》 세계관을 지탱하는 아홉 거인들의 특징을 소개합니다. 게임 속에서 구현된 그들의 능력을 미리 확인해 보세요. 아홉 거인 모두를 선택하여 운명의 경주에 참여할 수 있습니다!</p>
+
+        <div class="titan-card">
+            <img src="./images/founding_titan_card.png" alt="시조 거인 카드 이미지" class="titan-image">
+            <div class="titan-details">
+                <h3>시조 거인 (Founding Titan)</h3>
+                <p><strong>특징:</strong> 모든 거인의 시초이자 정점. '좌표'를 통해 모든 엘디아인의 기억과 육체를 조작하고 무지성 거인을 통제하는 궁극의 능력을 가졌습니다.</p>
+                <ul>
+                    <li><strong>주요 능력:</strong> 거인 조종, 기억/신체 조작 (게임 내에서는 초월적인 '운'의 가중치 예상)</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="titan-card">
+            <img src="./images/attack_titan_card.png" alt="공격 거인 카드 이미지" class="titan-image">
+            <div class="titan-details">
+                <h3>공격 거인 (Attack Titan)</h3>
+                <p><strong>특징:</strong> 시대를 초월하여 자유를 추구하며 미래의 계승자 기억을 볼 수 있습니다. 높은 기동성과 강력한 격투 능력을 자랑하는 전형적인 전투형 거인입니다.</p>
+                <ul>
+                    <li><strong>주요 능력:</strong> 미래 계승자의 기억 열람, 강한 전투 의지</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="titan-card">
+            <img src="./images/colossal_titan_card.png" alt="초대형 거인 카드 이미지" class="titan-image">
+            <div class="titan-details">
+                <h3>초대형 거인 (Colossal Titan)</h3>
+                <p><strong>특징:</strong> 약 60미터의 거대한 신장으로, 변신 시 충격파와 고열의 증기를 무기로 사용합니다. 느리지만 압도적인 파괴력을 가졌습니다.</p>
+                <ul>
+                    <li><strong>주요 능력:</strong> 고열의 증기 방출, 거인화 시의 대규모 충격파</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="titan-card">
+            <img src="./images/armored_titan_card.png" alt="갑옷 거인 카드 이미지" class="titan-image">
+            <div class="titan-details">
+                <h3>갑옷 거인 (Armored Titan)</h3>
+                <p><strong>특징:</strong> 전신이 단단한 경질화 피부로 덮여 있어 뛰어난 방어력을 자랑합니다. 돌진 능력이 뛰어나며 전방의 장애물을 돌파하는 데 특화되어 있습니다.</p>
+                <ul>
+                    <li><strong>주요 능력:</strong> 전신 경질화, 높은 방어력과 돌진 속도</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="titan-card">
+            <img src="./images/female_titan_card.png" alt="여성형 거인 카드 이미지" class="titan-image">
+            <div class="titan-details">
+                <h3>여성형 거인 (Female Titan)</h3>
+                <p><strong>특징:</strong> 균형 잡힌 능력치를 가졌으며, 신체 일부를 순간적으로 경질화하여 공방에 활용합니다. 장거리 질주에 유리하며 지구력이 뛰어납니다.</p>
+                <ul>
+                    <li><strong>주요 능력:</strong> 부분 경질화, 높은 기동성과 지구력</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="titan-card">
+            <img src="./images/beast_titan_card.png" alt="짐승 거인 카드 이미지" class="titan-image">
+            <div class="titan-details">
+                <h3>짐승 거인 (Beast Titan)</h3>
+                <p><strong>특징:</strong> 긴 팔과 강력한 투척 능력이 주특기입니다. 계승자에 따라 다양한 동물의 특징을 가지며, 주로 원거리 공격 및 지휘에 능합니다.</p>
+                <ul>
+                    <li><strong>주요 능력:</strong> 강력한 투척 및 원거리 공격, 포효를 통한 무지성 거인 통제 (제한적)</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="titan-card">
+            <img src="./images/jaw_titan_card.png" alt="턱 거인 카드 이미지" class="titan-image">
+            <div class="titan-details">
+                <h3>턱 거인 (Jaw Titan)</h3>
+                <p><strong>특징:</strong> 아홉 거인 중 가장 작지만, 폭발적인 속도와 강력한 턱과 발톱 경질화를 이용한 파괴력을 가졌습니다. 민첩성이 최고 수준입니다.</p>
+                <ul>
+                    <li><strong>주요 능력:</strong> 초고속 기동성, 강력한 턱/발톱을 이용한 파괴력</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="titan-card">
+            <img src="./images/cart_titan_card.png" alt="차력 거인 카드 이미지" class="titan-image">
+            <div class="titan-details">
+                <h3>차력 거인 (Cart Titan)</h3>
+                <p><strong>특징:</strong> 사족 보행을 하며, 뛰어난 지구력과 지속적인 활동이 가능합니다. 등 위에 무장 플랫폼을 싣고 전투 지원 및 장거리 수송 임무를 수행하는 데 특화되어 있습니다.</p>
+                <ul>
+                    <li><strong>주요 능력:</strong> 장기간 거인화 유지, 높은 지구력과 수송 능력</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="titan-card">
+            <img src="./images/warhammer_titan_card.png" alt="전퇴 거인 카드 이미지" class="titan-image">
+            <div class="titan-details">
+                <h3>전퇴 거인 (War Hammer Titan)</h3>
+                <p><strong>특징:</strong> 거인 자체의 본체 외부에 경질화 물질을 생성하여 무기나 구조물을 만들어냅니다. 본체를 지하에 숨길 수 있어 방어와 공격 모두 예측하기 어렵습니다.</p>
+                <ul>
+                    <li><strong>주요 능력:</strong> 경질화 물질로 다양한 무기 생성, 본체와 거인 분리</li>
+                </ul>
             </div>
         </div>
     </div>
@@ -849,5 +529,6 @@
         // 게임 초기화
         initGame();
     </script>
+
 </body>
 </html>
